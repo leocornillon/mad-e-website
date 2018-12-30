@@ -1,0 +1,91 @@
+
+export default class Bubble {
+
+    _diameter;
+    _x;
+    _y;
+    _vx;
+    _vy;
+    _vxOriginal;
+    _vyOriginal;
+    _friction;
+
+
+    constructor(diameter, x, y, vx, vy, _vxOriginal, _vyOriginal, friction) {
+        this._diameter = diameter;
+        this._x = x;
+        this._vx = vx;
+        this._vxOriginal = vx;
+        this._y = y;
+        this._vy = vy;
+        this._vyOriginal = vy;
+        this._friction = friction;
+        this._vxOriginal = _vxOriginal;
+        this._vyOriginal = _vyOriginal;
+    }
+
+
+    get vxOriginal() {
+        return this._vxOriginal;
+    }
+
+    set vxOriginal(value) {
+        this._vxOriginal = value;
+    }
+
+    get vyOriginal() {
+        return this._vyOriginal;
+    }
+
+    set vyOriginal(value) {
+        this._vyOriginal = value;
+    }
+
+    get x() {
+        return this._x;
+    }
+
+    set x(value) {
+        this._x = value;
+    }
+
+    get y() {
+        return this._y;
+    }
+
+    set y(value) {
+        this._y = value;
+    }
+
+    get friction() {
+        return this._friction;
+    }
+
+    set friction(value) {
+        this._friction = value;
+    }
+
+    get diameter() {
+        return this._diameter;
+    }
+
+    set diameter(value) {
+        this._diameter = value;
+    }
+
+    get vy() {
+        return this._vy;
+    }
+
+    set vy(value) {
+        this._vy = value;
+    }
+
+    get vx() {
+        return this._vx;
+    }
+
+    set vx(value) {
+        this._vx = value;
+    }
+}
