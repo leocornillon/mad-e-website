@@ -1,0 +1,6 @@
+
+.projectGridRowContainer {
+    position: relative;
+    display: grid;
+    grid-gap: 0;
+}

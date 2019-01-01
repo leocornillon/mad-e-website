@@ -3,10 +3,20 @@
  * Modification des couleurs directement dans ce fichier
  ******************/
 
-export const orange =  'rgba(234, 138, 26, 1)'; //"#ea8a1a";
+const hexToRgb = (hex) => {
+    const bigint = parseInt(hex.substring(1, hex.length), 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
 
-export const orangeTransparent =  'rgba(234, 138, 26, 0.2)';
+    return `${r}, ${g}, ${b}`;
+};
 
-export const violet = 'rgba(94, 4, 211, 1)'; //"#5e04d3";
+export const PRIMARY_COLOR = '#5E04D3';
+export const PRIMARY_COLOR_TRANSPARENT = `rgba(${hexToRgb(PRIMARY_COLOR)}, 0.25)`;
 
-export const violetTransparent = 'rgba(94, 4, 211, 0.1)';
+export const SECONDARY_COLOR =  '#EA8A1A';
+export const SECONDARY_COLOR_TRANSPARENT =  `rgba(${hexToRgb(SECONDARY_COLOR)}, 0.25)`;
+
+export const PRIMARY_BUBBLE_GRADIENT_COLOR = '#C86DD7';
+export const SECONDARY_BUBBLE_GRADIENT_COLOR = `rgba(${hexToRgb('#3023AE')}, 0.25)`;

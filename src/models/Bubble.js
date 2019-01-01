@@ -8,10 +8,11 @@ export default class Bubble {
     _vy;
     _vxOriginal;
     _vyOriginal;
+    _gradientAngle;
     _friction;
 
 
-    constructor(diameter, x, y, vx, vy, _vxOriginal, _vyOriginal, friction) {
+    constructor(diameter, x, y, vx, vy, vxOriginal, vyOriginal, gradientAngle, friction) {
         this._diameter = diameter;
         this._x = x;
         this._vx = vx;
@@ -20,10 +21,19 @@ export default class Bubble {
         this._vy = vy;
         this._vyOriginal = vy;
         this._friction = friction;
-        this._vxOriginal = _vxOriginal;
-        this._vyOriginal = _vyOriginal;
+        this._vxOriginal = vxOriginal;
+        this._vyOriginal = vyOriginal;
+        this._gradientAngle = gradientAngle;
     }
 
+
+    get gradientAngle() {
+        return this._gradientAngle;
+    }
+
+    set gradientAngle(value) {
+        this._gradientAngle = value;
+    }
 
     get vxOriginal() {
         return this._vxOriginal;

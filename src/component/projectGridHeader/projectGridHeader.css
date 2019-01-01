@@ -1,0 +1,32 @@
+.projectGridHeaderContainer {
+
+    position: relative;
+    padding: 60px 100px 0 100px;
+    color: black;
+
+    background-color: white;
+}
+
+.projectGridHeaderTitle {
+    position: relative;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.projectGridHeaderContent {
+    position: relative;
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 37px;
+    font-weight: bold;
+    max-width: 40%;
+}
+
+.projectGridHeaderEmphasis {
+    position: relative;
+    display: inline-block;
+    float: right;
+    font-size: 140px;
+    font-weight: bold;
+    color: rgba(128,128,128, 0.09);
+}

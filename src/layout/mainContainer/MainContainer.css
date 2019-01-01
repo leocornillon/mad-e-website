@@ -1,0 +1,13 @@
+
+
+.mainContainer {
+
+    position: relative;
+
+    min-width: 500px;
+    max-width: 1200px;
+
+    margin: auto;
+
+    color: white;
+}

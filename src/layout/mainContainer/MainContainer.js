@@ -6,11 +6,9 @@ export default class MainContainer extends Component {
 
     render() {
 
-        const { children } = this.props;
-
         return (
             <div className={'mainContainer'}>
-                {children}
+                {this.props.children}
             </div>
         )
     }

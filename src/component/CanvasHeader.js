@@ -2,7 +2,12 @@ import React from "react";
 
 import Bubble from "../models/Bubble";
 import {BUBBLE_NUMBER, HEADER_SIZE} from "../utils/constantes";
-import {orange, violet, orangeTransparent, violetTransparent} from "../utils/colors";
+import {
+    PRIMARY_COLOR,
+    SECONDARY_COLOR,
+    PRIMARY_BUBBLE_GRADIENT_COLOR,
+    SECONDARY_BUBBLE_GRADIENT_COLOR
+} from "../utils/colors";
 
 
 export default class CanvasHeader extends React.Component {
@@ -54,11 +59,8 @@ export default class CanvasHeader extends React.Component {
         // Set default canvas style
         this.canvas.style.top = 0;
         this.canvas.style.left = 0;
-        this.canvas.style.zIndex = -1;
         this.canvas.style.position = 'absolute';
-        this.canvas.style.backgroundColor = violet;
-
-        console.log('Canvas', this.canvas);
+        //this.canvas.style.backgroundImage = `radial-gradient(${SECONDARY_COLOR}, ${PRIMARY_COLOR})`;
 
         // Get context
         this.ctx = this.canvas.getContext("2d");
@@ -69,8 +71,9 @@ export default class CanvasHeader extends React.Component {
 
         // Set the radial gradient
         const radgrad = this.ctx.createRadialGradient(this.innerWidth, this.innerHeight * 2.5, 1, this.innerWidth, this.innerHeight * 2.5, this.innerHeight * 3);
-        radgrad.addColorStop(0, orange);
-        radgrad.addColorStop(1, violet);
+        radgrad.addColorStop(0, SECONDARY_COLOR);
+        radgrad.addColorStop(0.8, PRIMARY_COLOR);
+        radgrad.addColorStop(1, PRIMARY_COLOR);
 
 
         // Fill the gradient
@@ -82,10 +85,10 @@ export default class CanvasHeader extends React.Component {
     initializeBubbleList = () => {
 
         this.bubbleList = [];
-        const vx = Math.random() > 0.5 ? this.getRandomInt(10, 100) / 200 : -this.getRandomInt(10, 100) / 200;
-        const vy = Math.random() < 0.5 ? this.getRandomInt(10, 100) / 200 : -this.getRandomInt(10, 100) / 200;
 
         for(let i = 0; i < BUBBLE_NUMBER; i++){
+            const vx = this.getRandomInt(1,100) > 50 ? this.getRandomInt(10, 70) / 300 : -this.getRandomInt(10, 70) / 300;
+            const vy = this.getRandomInt(1,100) > 50 ? this.getRandomInt(10, 70) / 300 : -this.getRandomInt(10, 70) / 300;
             const newBubble = new Bubble(
                 this.getRandomInt(85, 250),
                 this.getRandomInt(0, this.innerWidth),
@@ -94,6 +97,7 @@ export default class CanvasHeader extends React.Component {
                 vy,
                 vx,
                 vy,
+                this.getRandomInt(1,360),
                 0.97
             );
             this.bubbleList.push(newBubble);
@@ -103,22 +107,23 @@ export default class CanvasHeader extends React.Component {
     drawBubbles = () => {
 
         this.ctx.save();
+        this.ctx.globalCompositeOperation = 'overlay';
 
         this.bubbleList.forEach((bubble) => {
 
             // Create radient for the bubble
             const radBubble = this.ctx.createRadialGradient(
-                bubble.x - 40,
-                bubble.y - 40,
-                30,
-                bubble.x,
-                bubble.y,
+                bubble.x + (bubble.diameter / 2) * Math.cos(bubble.gradientAngle),
+                bubble.y + (bubble.diameter / 2) * Math.sin(bubble.gradientAngle),
+                1,
+                bubble.x + (bubble.diameter / 2) * Math.cos(bubble.gradientAngle),
+                bubble.y + (bubble.diameter / 2) * Math.sin(bubble.gradientAngle),
                 bubble.diameter
             );
 
             // The center is violet, and the stroke orange
-            radBubble.addColorStop(0, violetTransparent);
-            radBubble.addColorStop(1, orangeTransparent);
+            radBubble.addColorStop(0, SECONDARY_BUBBLE_GRADIENT_COLOR);
+            radBubble.addColorStop(1, PRIMARY_BUBBLE_GRADIENT_COLOR);
 
             // Render the bubble
             this.ctx.fillStyle = radBubble;
@@ -135,19 +140,59 @@ export default class CanvasHeader extends React.Component {
     drawLines = () => {
 
         this.ctx.save();
-        this.ctx.strokeStyle = orangeTransparent;
-        this.ctx.beginPath();
+        this.ctx.globalCompositeOperation = 'lighten';
 
         this.bubbleList.forEach((bubble, index) => {
-           if(index === 0){
-               this.ctx.moveTo(bubble.x, bubble.y);
-           } else {
-               this.ctx.lineTo(bubble.x, bubble.y);
-           }
+
+            // Get the previous bubble
+            const oldBubble = index === 0 ? bubble : this.bubbleList[index - 1];
+
+            //Create the gradient
+            const linearGradient = this.ctx.createLinearGradient(oldBubble.x, oldBubble.y, bubble.x, bubble.y);
+            linearGradient.addColorStop(0, SECONDARY_BUBBLE_GRADIENT_COLOR);
+            linearGradient.addColorStop(0.5, PRIMARY_BUBBLE_GRADIENT_COLOR);
+            linearGradient.addColorStop(1, SECONDARY_BUBBLE_GRADIENT_COLOR);
+            this.ctx.strokeStyle = linearGradient;
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(oldBubble.x, oldBubble.y);
+            this.ctx.lineTo(bubble.x, bubble.y);
+            this.ctx.stroke();
+
         });
 
-        this.ctx.stroke();
         this.ctx.restore();
+    };
+
+    drawText = () => {
+
+        this.ctx.save();
+        this.ctx.fillStyle = 'white';
+
+        const x = this.innerWidth > 1200 ? (this.innerWidth - 1200) / 2 : 20;
+
+        this.ctx.font = "bold 48px 'Sarabun'";
+        let txt = this.ctx.measureText('Mad ');
+        this.ctx.fillText('Mad ', x, this.innerHeight * 0.15);
+
+        this.ctx.font = "italic 48px 'Sarabun";
+        this.ctx.fillText('(e)', x + txt.width, this.innerHeight * 0.15);
+
+        this.ctx.font = "43px 'Sarabun'";
+        txt = this.ctx.measureText('La ');
+        this.ctx.fillText('La ', x, this.innerHeight * 0.45);
+
+        this.ctx.font = "italic bold 43px 'Sarabun'";
+        this.ctx.fillText('folle ', x + txt.width, this.innerHeight * 0.45);
+        txt = this.ctx.measureText('folle       ');
+
+        this.ctx.font = "43px 'Sarabun'";
+        this.ctx.fillText('manufacture qui traduit', x + txt.width, this.innerHeight * 0.45);
+
+        this.ctx.fillText('vos idées en image', x, this.innerHeight * 0.45 + 60);
+
+        this.ctx.restore();
+
     };
 
     moveBubbles = () => {
@@ -219,16 +264,19 @@ export default class CanvasHeader extends React.Component {
     renderFrame = () => {
 
         // Clear the layout
-        this.ctx.fillRect(0,0, this.innerWidth, this.innerHeight);
+        this.ctx.clearRect(0,0, this.innerWidth, this.innerHeight);
 
         // Draw the Background
         this.initializeBg();
 
+        // Draw bubbles
+        this.drawBubbles();
+
         // Draw lines
         this.drawLines();
 
-        // Draw bubbles
-        this.drawBubbles();
+        // Draw text
+        this.drawText();
 
         //Compute new bubbles position
         this.moveBubbles();
