@@ -202,11 +202,11 @@ export default class CanvasHeader extends React.Component {
           bubble.x += bubble.vx;
           bubble.y += bubble.vy;
 
-          // Change direction on walls
+          // Bounce on walls
           bubble.vx = (bubble.x >= this.innerWidth - 1 || bubble.x <= 1) ? - bubble.vx : bubble.vx;
           bubble.vy = (bubble.y >= this.innerHeight - 1 || bubble.y <= 1) ? - bubble.vy : bubble.vy;
 
-          // Stop on the wall
+          // Avoid teleporting behind the wall ang getting stuck
           if(bubble.x > this.innerWidth - 1) bubble.x = this.innerWidth - 2;
           if(bubble.x < 1) bubble.x = 2;
           if(bubble.y > this.innerHeight - 1) bubble.y = this.innerHeight - 2;
@@ -229,11 +229,11 @@ export default class CanvasHeader extends React.Component {
             // If the distance is less than the diameter, we are in the bubble
             if(position < bubble.diameter) {
 
-                // Gettting the equa tion of the line between the position and the center (y = mx + p)
+                // Gettting the equation of the line between the position and the center (y = mx + p)
                 const m = (event.y - bubble.y) / (event.x - bubble.y);
                 const p = bubble.y - m * bubble.x;
 
-                // Getting the coordinates of the point on the circle
+                // Getting the coordinates of the intersections between the previous line and the bubble
                 const A = Math.pow(m,2) + 1;
                 const B = 2*m*p - 2*m*bubble.y - 2*bubble.x;
                 const C = Math.pow(p,2) + Math.pow(bubble.x,2) + Math.pow(bubble.y,2) - 2*p*bubble.y - Math.pow(bubble.diameter, 2);
@@ -242,20 +242,30 @@ export default class CanvasHeader extends React.Component {
                 const yCircle1 = m*xCircle1 + p;
                 const yCircle2 = m*xCircle2 + p;
 
-                // Getting the correct point on the circle and the associate momentum
+                // Getting the correct intersection on the bubble and the associate momentum
                 const length = Math.sqrt(Math.pow(xCircle1 - event.x, 2) + Math.pow(yCircle1 - event.y, 2));
                 let momentumX, momentumY;
-                if(length > bubble.diameter) {
+                if(length > (bubble.diameter / 2)) {
                     momentumX = xCircle1 - event.x;
+                    //momentumX = event.x - xCircle2;
                     momentumY = yCircle1 - event.y;
+                    //momentumY = event.y - yCircle2;
                 } else {
                     momentumX = xCircle2 - event.x;
+                    //momentumX = event.x - xCircle1;
                     momentumY = yCircle2 - event.y;
+                    //momentumY = event.y - yCircle1;
                 }
 
-                // Add the momentum at the bubble
-                bubble.vx += (momentumX / (3*bubble.diameter));
-                bubble.vy += (momentumY / (3*bubble.diameter));
+                // Check if the momentum is not somehow incoherent
+                if(momentumX > 0 && momentumX > 500) momentumX = 100;
+                if(momentumX < 0 && momentumX < -500) momentumX = -100;
+                if(momentumY > 0 && momentumY > 500) momentumY = 100;
+                if(momentumY < 0 && momentumY < -500) momentumY = -100;
+
+                // Add the momentum to the bubble
+                bubble.vx += (momentumX / (3 * bubble.diameter));
+                bubble.vy += (momentumY / (3 * bubble.diameter));
             }
         });
 
