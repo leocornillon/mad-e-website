@@ -6,10 +6,10 @@ export default class ProjectGridComponent extends React.Component {
 
     render() {
 
-        const {height, width, img} = this.props;
+        const {height, width, img, style} = this.props;
 
         return(
-            <div className={'projectGridComponentContainer'} style={{gridColumn: width, gridRow: height}}>
+            <div className={'projectGridComponentContainer'} style={{...style, gridColumn: width, gridRow: height}}>
                 <img src={img} alt={img}/>
             </div>
         );
