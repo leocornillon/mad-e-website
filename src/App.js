@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Trail } from 'react-spring';
 
+import FrontLines from "./component/frontLines/FrontLines";
 import CanvasHeader from "./component/CanvasHeader";
 import MainContainer from "./layout/mainContainer/MainContainer";
 import ProjectGrid from "./layout/projectGrid/ProjectGrid";
@@ -25,6 +26,7 @@ class App extends Component {
 
     return (
       <React.Fragment>
+        <FrontLines/>
         <CanvasHeader />
         <MainContainer>
             <ProjectGrid>

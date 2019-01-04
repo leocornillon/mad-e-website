@@ -48,8 +48,8 @@ export default class CanvasHeader extends React.Component {
     // Initialize the canvas with default values
     initializeCanvas = () => {
         // Set variables
-        this.innerWidth = window.innerWidth;
-        this.innerHeight = window.innerHeight * HEADER_SIZE;
+        this.innerWidth = document.documentElement.clientWidth;
+        this.innerHeight = document.documentElement.clientHeight * HEADER_SIZE;
 
         // Set Canvas size
         this.canvas = this.refs.canvas;

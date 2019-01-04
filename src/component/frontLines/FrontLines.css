@@ -1,0 +1,7 @@
+.frontLine {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    width: 1px;
+    height: 100vh;
+}

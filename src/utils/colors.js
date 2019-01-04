@@ -20,3 +20,6 @@ export const SECONDARY_COLOR_TRANSPARENT =  `rgba(${hexToRgb(SECONDARY_COLOR)}, 
 
 export const PRIMARY_BUBBLE_GRADIENT_COLOR = '#C86DD7';
 export const SECONDARY_BUBBLE_GRADIENT_COLOR = `rgba(${hexToRgb('#3023AE')}, 0.25)`;
+
+export const FRONT_LINES_COLOR = '#9B9B9B';
+export const FRONT_LINES_COLOR_TRANSPARENT = `rgba(${hexToRgb(FRONT_LINES_COLOR)}, 0.36)`;
