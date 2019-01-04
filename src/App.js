@@ -8,6 +8,7 @@ import ProjectGrid from "./layout/projectGrid/ProjectGrid";
 import ProjectGridHeader from "./component/projectGridHeader/projectGridHeader";
 import ProjectGridRow from "./layout/projectGridRow/ProjectGridRow";
 import ProjectGridComponent from "./component/projectGridComponent/ProjectGridComponent";
+import SeeMore from "./component/seeMore/SeeMore";
 import ProjectsPictures from "./utils/projects";
 
 import './App.css';
@@ -43,6 +44,7 @@ class App extends Component {
                     </Trail>
                 </ProjectGridRow>
             </ProjectGrid>
+            <SeeMore />
         </MainContainer>
       </React.Fragment>
     );
