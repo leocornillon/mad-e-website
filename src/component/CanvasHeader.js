@@ -243,19 +243,12 @@ export default class CanvasHeader extends React.Component {
                 const yCircle2 = m*xCircle2 + p;
 
                 // Getting the correct intersection on the bubble and the associate momentum
-                const length = Math.sqrt(Math.pow(xCircle1 - event.x, 2) + Math.pow(yCircle1 - event.y, 2));
-                let momentumX, momentumY;
-                if(length > (bubble.diameter / 2)) {
-                    momentumX = xCircle1 - event.x;
-                    //momentumX = event.x - xCircle2;
-                    momentumY = yCircle1 - event.y;
-                    //momentumY = event.y - yCircle2;
-                } else {
-                    momentumX = xCircle2 - event.x;
-                    //momentumX = event.x - xCircle1;
-                    momentumY = yCircle2 - event.y;
-                    //momentumY = event.y - yCircle1;
-                }
+                const length1 = Math.sqrt(Math.pow(xCircle1 - event.x, 2) + Math.pow(yCircle1 - event.y, 2));
+                const length2 = Math.sqrt(Math.pow(xCircle2 - event.x, 2) + Math.pow(yCircle2 - event.y, 2));
+                const xCircle = length1 > length2 ? xCircle1 : xCircle2;
+                const yCircle = length1 > length2 ? yCircle1 : yCircle2;
+                let momentumX = xCircle - event.x;
+                let momentumY = yCircle - event.y;
 
                 // Check if the momentum is not somehow incoherent
                 if(momentumX > 0 && momentumX > 500) momentumX = 100;
